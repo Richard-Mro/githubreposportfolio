@@ -105,11 +105,8 @@
 
       <!-- Button to test 404 page -->
       <div class="text-center mt-6">
-        <router-link to="/non-existent-page">
-          <button class="bg-red-500 text-white px-4 py-2 rounded">
-            Test 404 Page
-          </button>
-        </router-link>
+<a href='/non-existent-page' class="bg-red-500 text-white px-4 py-2 rounded">Test 404 Page</a>
+
       </div>
     </div>
   </ErrorBoundary>

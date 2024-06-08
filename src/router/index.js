@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import RepoList from "@/components/RepoList.vue";
 import RepoDetail from "@/components/RepoDetail.vue";
-import NotFound from "@/components/NotFound.vue";
 
 const routes = [
   {
@@ -15,7 +14,8 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
-    component: NotFound, // 404 Page
+    name: "not-found",
+    component: () => import("@/components/NotFound.vue"),
   },
 ];
 
