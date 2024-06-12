@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import axios from "axios";
 
-const PROJECT_IDENTIFIER = "[my-vue-project]";
+const PROJECT_IDENTIFIER = "[newly-setup-repo]";
 
 export function useFetchRepos() {
   const repos = ref([]);
@@ -72,7 +72,7 @@ export function useFetchRepos() {
         `https://api.github.com/user/repos`,
         {
           ...repoData,
-          description: `${repoData.description || ""} ${PROJECT_IDENTIFIER}`,
+          description: `${repoData.description || "This is a newly created repository and only this ones can be edited or deleted from the list of repositories"} ${PROJECT_IDENTIFIER}`,
         },
         {
           headers: {

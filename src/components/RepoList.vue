@@ -105,7 +105,7 @@
 
       <!-- Button to test 404 page -->
       <div class="text-center mt-6">
-<a href='/non-existent-page' class="bg-red-500 text-white px-4 py-2 rounded">Test 404 Page</a>
+      <a href='/non-existent-page' class="bg-red-500 text-white px-4 py-2 rounded">Test 404 Page</a>
 
       </div>
     </div>
@@ -117,7 +117,7 @@ import { ref, computed, onMounted } from "vue";
 import { useFetchRepos } from "@/composables/useFetchRepos";
 import ErrorBoundary from "@/components/ErrorBoundary.vue";
 
-const PROJECT_IDENTIFIER = "[my-vue-project]";
+const PROJECT_IDENTIFIER = "[newly-setup-repo]";
 
 export default {
   components: {
@@ -170,6 +170,7 @@ export default {
     });
 
     const handleCreateRepo = async () => {
+      alert("Might take a while before you see your newly created repo due to your browser's cache, you could refresh but for best experience disable cache")
       if (newRepoName.value) {
         await createRepo({ name: newRepoName.value });
         newRepoName.value = "";
@@ -200,19 +201,22 @@ export default {
       if (newRepoName.value) {
         handleEditRepo();
       }
+      alert("You could easily refresh the page to see the change effected as your browser's cache might delay its quick effect, but for best experience disable cache ")
     };
 
     const deleteRepository = (repo) => {
       if (confirm(`Are you sure you want to delete the repository "${repo.name}"?`)) {
         deleteRepoName.value = repo.name;
         handleDeleteRepo();
+        alert("Might take a while before reflecting due to your browser's cache, you could refresh the page, but for best experience disable cache")
       }
     };
 
     const testError = () => {
-      try {
+      try { 
         throw new Error("This is a test error");
       } catch (error) {
+       
         console.error("Test error:", error);
         throw error; // Re-throw the error to propagate it to the error boundary
       }

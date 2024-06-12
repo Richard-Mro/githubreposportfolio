@@ -14,8 +14,8 @@ export function useFetchRepoById() {
         `https://api.github.com/repos/Richard-Mro/${id}`
       );
       repo.value = response.data;
-    } catch (err) {
-      error.value = err.message;
+    } catch (error) {
+      error.value = error.message;
     } finally {
       loading.value = false;
     }
