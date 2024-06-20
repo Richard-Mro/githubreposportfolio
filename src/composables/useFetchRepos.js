@@ -72,7 +72,10 @@ export function useFetchRepos() {
         `https://api.github.com/user/repos`,
         {
           ...repoData,
-          description: `${repoData.description || "This is a newly created repository and only this ones can be edited or deleted from the list of repositories"} ${PROJECT_IDENTIFIER}`,
+          description: `${
+            repoData.description ||
+            "This is a newly created repository and only this ones can be edited or deleted from the list of repositories"
+          } ${PROJECT_IDENTIFIER}`,
         },
         {
           headers: {
@@ -88,12 +91,12 @@ export function useFetchRepos() {
     }
   };
 
-  const editRepo = async (repoName, newRepoData) => {
+  const editRepo = async (owner, repoName, newRepoData, callback) => {
     loading.value = true;
     error.value = null;
     try {
       const response = await axios.patch(
-        `https://api.github.com/repos/Richard-Mro/${repoName}`,
+        `https://api.github.com/repos/${owner}/${repoName}`,
         newRepoData,
         {
           headers: {
@@ -105,6 +108,7 @@ export function useFetchRepos() {
       if (index !== -1) {
         repos.value[index] = response.data;
       }
+      if (callback) callback(response.data); // Pass updated repo data to callback
     } catch (err) {
       error.value = err.message;
     } finally {
@@ -112,19 +116,17 @@ export function useFetchRepos() {
     }
   };
 
-  const deleteRepo = async (repoName) => {
+  const deleteRepo = async (owner, repoName, callback) => {
     loading.value = true;
     error.value = null;
     try {
-      await axios.delete(
-        `https://api.github.com/repos/Richard-Mro/${repoName}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_ACCESS_TOKEN}`,
-          },
-        }
-      );
+      await axios.delete(`https://api.github.com/repos/${owner}/${repoName}`, {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_ACCESS_TOKEN}`,
+        },
+      });
       repos.value = repos.value.filter((repo) => repo.name !== repoName);
+      if (callback) callback(); // Call the callback after deletion
     } catch (err) {
       error.value = err.message;
     } finally {

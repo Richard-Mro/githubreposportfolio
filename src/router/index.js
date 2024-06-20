@@ -5,10 +5,12 @@ import RepoDetail from "@/components/RepoDetail.vue";
 const routes = [
   {
     path: "/",
+    name: "RepoList",
     component: RepoList,
   },
   {
     path: "/repo/:id",
+    name: "RepoDetail",
     component: RepoDetail,
     props: true,
   },
@@ -17,6 +19,7 @@ const routes = [
     name: "not-found",
     component: () => import("@/components/NotFound.vue"),
   },
+  
 ];
 
 const router = createRouter({

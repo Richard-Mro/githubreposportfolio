@@ -13,6 +13,7 @@
       <!-- Search Input Field -->
       <div class="mb-4">
         <input
+
           v-model="searchQuery"
           type="text"
           placeholder="Search Repositories..."
@@ -52,22 +53,25 @@
         Error: {{ error }}
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div
+        <router-link
           v-for="repo in filteredRepos"
           :key="repo.id"
-          class="bg-white rounded-lg shadow p-6"
+          :to="{ name: 'RepoDetail', params: { id: repo.id } }"
+          class="bg-white rounded-lg shadow p-6 block"
         >
-          <h3 class="text-xl font-bold mb-2 text-blue-500">{{ repo.name }}</h3>
+          <h3 class="text-xl font-bold mb-2 text-blue-500">
+            {{ repo.name }}
+          </h3>
           <p class="text-gray-700">{{ repo.description }}</p>
           <div v-if="repo.description && repo.description.includes(PROJECT_IDENTIFIER)">
-            <button @click="editRepository(repo)" class="bg-yellow-500 text-white px-4 py-2 rounded mt-2">
+            <button @click.stop="editRepository(repo)" class="bg-yellow-500 text-white px-4 py-2 rounded mt-2">
               Edit
             </button>
-            <button @click="deleteRepository(repo)" class="bg-red-500 text-white px-4 py-2 rounded mt-2 ml-2">
+            <button @click.stop="deleteRepository(repo)" class="bg-red-500 text-white px-4 py-2 rounded mt-2 ml-2">
               Delete
             </button>
           </div>
-        </div>
+        </router-link>
       </div>
 
       <!-- Pagination Controls -->
@@ -105,8 +109,7 @@
 
       <!-- Button to test 404 page -->
       <div class="text-center mt-6">
-      <a href='/non-existent-page' class="bg-red-500 text-white px-4 py-2 rounded">Test 404 Page</a>
-
+        <a href='/non-existent-page' class="bg-red-500 text-white px-4 py-2 rounded">Test 404 Page</a>
       </div>
     </div>
   </ErrorBoundary>
@@ -197,18 +200,16 @@ export default {
 
     const editRepository = (repo) => {
       editRepoName.value = repo.name;
-      newRepoName.value = prompt("Enter new name for the repository:", repo.name);
+      newRepoName.value =  repo.name;
       if (newRepoName.value) {
         handleEditRepo();
       }
-      alert("You could easily refresh the page to see the change effected as your browser's cache might delay its quick effect, but for best experience disable cache ")
     };
 
     const deleteRepository = (repo) => {
-      if (confirm(`Are you sure you want to delete the repository "${repo.name}"?`)) {
+      if (` "${repo.name}"?`) {
         deleteRepoName.value = repo.name;
         handleDeleteRepo();
-        alert("Might take a while before reflecting due to your browser's cache, you could refresh the page, but for best experience disable cache")
       }
     };
 

@@ -9,13 +9,17 @@ export function useFetchRepoById() {
   const fetchRepoById = async (id) => {
     loading.value = true;
     error.value = null;
+
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/Richard-Mro/${id}`
+        `https://api.github.com/repositories/${id}`
       );
+      if (!response.data) {
+        throw new Error("Repository not found");
+      }
       repo.value = response.data;
-    } catch (error) {
-      error.value = error.message;
+    } catch (err) {
+      error.value = err.message || "An error occurred";
     } finally {
       loading.value = false;
     }
