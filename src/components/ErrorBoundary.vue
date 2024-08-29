@@ -1,12 +1,10 @@
 <template>
   <div v-if="error">
-    <!-- Display error message -->
     <h1>Something went wrong</h1>
     <p>{{ error.message }}</p>
     <button @click="resetError">Try Again</button>
   </div>
   <div v-else>
-    <!-- Display children components -->
     <slot></slot>
   </div>
 </template>
@@ -18,9 +16,9 @@ export default {
       error: null,
     };
   },
-  errorCaptured(error) {
+  errorCaptured(error, vm, info) {
     this.error = error;
-    console.error(error);
+    console.error("Error captured in ErrorBoundary:", error);
     return false; // Prevent the error from propagating further
   },
   methods: {

@@ -13,7 +13,6 @@
       <!-- Search Input Field -->
       <div class="mb-4">
         <input
-
           v-model="searchQuery"
           type="text"
           placeholder="Search Repositories..."
@@ -50,7 +49,8 @@
 
       <div v-if="loading" class="text-center text-gray-600">Loading...</div>
       <div v-else-if="error" class="text-center text-red-500">
-        Error: {{ error }}
+        <p>Error: {{ error.message }}</p>
+        <button @click="resetError">Try Again</button>
       </div>
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <router-link
@@ -214,10 +214,9 @@ export default {
     };
 
     const testError = () => {
-      try { 
+      try {
         throw new Error("This is a test error");
       } catch (error) {
-       
         console.error("Test error:", error);
         throw error; // Re-throw the error to propagate it to the error boundary
       }
